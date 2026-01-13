@@ -20,7 +20,10 @@ app.use(cors({
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
+const gigRoutes = require('./routes/gigRoutes');
+
 app.use('/api/auth', authRoutes);
+app.use('/api/gigs', gigRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
