@@ -46,8 +46,46 @@ const register = async (req, res) => {
 // @desc    Login user
 // @route   POST /api/auth/login
 const login = async (req, res) => {
-    // To be implemented
-    res.status(501).json({ message: 'Not implemented yet' });
+    try {
+        const { email, password } = req.body;
+
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Please provide email and password' });
+        }
+
+        // Find user
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Check password
+        const isPasswordCorrect = await user.comparePassword(password);
+        if (!isPasswordCorrect) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Generate token
+        const token = generateToken(user._id);
+
+        // Set HTTP-only cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
+
+        res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 module.exports = { register, login };
