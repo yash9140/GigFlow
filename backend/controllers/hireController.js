@@ -12,7 +12,7 @@ const hireFreelancer = async (req, res) => {
         const bidId = req.params.bidId;
 
         // Find the bid with session
-        const bid = await Bid.findById(bidId).session(session);
+        const bid = await Bid.findById(bidId).populate('freelancerId').session(session);
         if (!bid) {
             await session.abortTransaction();
             session.endSession();
@@ -59,6 +59,25 @@ const hireFreelancer = async (req, res) => {
         // Commit the transaction
         await session.commitTransaction();
         session.endSession();
+
+        // Emit real-time notification to freelancer
+        const io = req.app.get('io');
+        const userSockets = req.app.get('userSockets');
+        const freelancerSocketId = userSockets.get(bid.freelancerId._id.toString());
+
+        if (freelancerSocketId) {
+            io.to(freelancerSocketId).emit('hired', {
+                message: 'Congratulations! You have been hired for a gig',
+                gig: {
+                    id: gig._id,
+                    title: gig.title,
+                },
+                bid: {
+                    id: bid._id,
+                    amount: bid.amount,
+                },
+            });
+        }
 
         res.status(200).json({
             message: 'Freelancer hired successfully',
