@@ -22,10 +22,12 @@ app.use(cors({
 const authRoutes = require('./routes/authRoutes');
 const gigRoutes = require('./routes/gigRoutes');
 const bidRoutes = require('./routes/bidRoutes');
+const hireRoutes = require('./routes/hireRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/gigs', gigRoutes);
 app.use('/api/bids', bidRoutes);
+app.use('/api/hire', hireRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
