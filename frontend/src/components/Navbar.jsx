@@ -24,7 +24,13 @@ const Navbar = () => {
                     <div className="flex items-center space-x-4">
                         {user ? (
                             <>
-                                <span className="text-slate-700">Hi, {user.name}</span>
+                                <Link
+                                    to={user.role === 'client' ? '/dashboard/client' : '/dashboard/freelancer'}
+                                    className="text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 font-medium"
+                                >
+                                    Dashboard
+                                </Link>
+                                <span className="text-slate-700 dark:text-slate-300">Hi, {user.name}</span>
                                 {user.role === 'client' && (
                                     <Link to="/create-gig" className="btn-primary">
                                         Post Gig

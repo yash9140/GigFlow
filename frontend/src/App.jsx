@@ -6,6 +6,8 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import GigDetail from './pages/GigDetail';
 import CreateGig from './pages/CreateGig';
+import ClientDashboard from './pages/ClientDashboard';
+import FreelancerDashboard from './pages/FreelancerDashboard';
 import Navbar from './components/Navbar';
 import useSocket from './hooks/useSocket';
 
@@ -27,6 +29,8 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/gig/:id" element={<GigDetail />} />
         <Route path="/create-gig" element={<ProtectedRoute><CreateGig /></ProtectedRoute>} />
+        <Route path="/dashboard/client" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
+        <Route path="/dashboard/freelancer" element={<ProtectedRoute><FreelancerDashboard /></ProtectedRoute>} />
       </Routes>
     </>
   );
