@@ -15,10 +15,14 @@ const GigDetail = () => {
 
     useEffect(() => {
         fetchGig();
-        if (user && user.role === 'client') {
+    }, [id]);
+
+    // Fetch bids only when gig is loaded and user is the owner
+    useEffect(() => {
+        if (gig && user && user.role === 'client' && gig.clientId._id === user._id) {
             fetchBids();
         }
-    }, [id, user]);
+    }, [gig, user]);
 
     const fetchGig = async () => {
         try {
