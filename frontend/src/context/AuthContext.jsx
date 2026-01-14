@@ -12,7 +12,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const apiUrl = 'http://localhost:5000/api';
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
