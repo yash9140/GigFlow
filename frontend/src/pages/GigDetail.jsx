@@ -117,7 +117,7 @@ const GigDetail = () => {
                 </div>
             )}
 
-            {user && user.role === 'client' && gig.clientId === user._id && bids.length > 0 && (
+            {user && user.role === 'client' && gig.clientId._id === user._id && bids.length > 0 && (
                 <div className="card">
                     <h2 className="text-2xl font-bold text-primary-600 mb-4">Bids Received ({bids.length})</h2>
                     <div className="space-y-4">
