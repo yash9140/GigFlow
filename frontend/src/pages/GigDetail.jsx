@@ -78,11 +78,12 @@ const GigDetail = () => {
     return (
         <div className="max-w-4xl mx-auto px-4 py-8">
             <div className="card mb-8">
-                <h1 className="text-3xl font-bold text-primary-600 mb-4">{gig.title}</h1>
-                <p className="text-neutral-700 mb-4 whitespace-pre-wrap">{gig.description}</p>
+                <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">{gig.title}</h1>
+                <p className="text-slate-700 dark:text-slate-300 mb-4 whitespace-pre-wrap">{gig.description}</p>
                 <div className="flex justify-between items-center">
-                    <span className="text-3xl font-bold text-secondary-600">${gig.budget}</span>
-                    <span className={`px-4 py-2 rounded-lg ${gig.status === 'open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    <span className="text-3xl font-bold text-emerald-600">${gig.budget}</span>
+                    <span className={`px-4 py-2 rounded-full text-sm font-medium ${gig.status === 'open' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200' : 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-200'
+                        }`}>
                         {gig.status === 'open' ? 'Open for Bids' : 'Assigned'}
                     </span>
                 </div>
@@ -90,10 +91,10 @@ const GigDetail = () => {
 
             {user && user.role === 'freelancer' && gig.status === 'open' && (
                 <div className="card mb-8">
-                    <h2 className="text-2xl font-bold text-primary-600 mb-4">Submit Your Bid</h2>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4">Submit Your Bid</h2>
                     <form onSubmit={handleSubmitBid} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-neutral-700 mb-2">Bid Amount ($)</label>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Bid Amount ($)</label>
                             <input
                                 type="number"
                                 value={amount}
@@ -106,7 +107,7 @@ const GigDetail = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-neutral-700 mb-2">Proposal</label>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Proposal</label>
                             <textarea
                                 value={proposal}
                                 onChange={(e) => setProposal(e.target.value)}
@@ -123,23 +124,28 @@ const GigDetail = () => {
 
             {user && user.role === 'client' && gig.clientId._id === user._id && bids.length > 0 && (
                 <div className="card">
-                    <h2 className="text-2xl font-bold text-primary-600 mb-4">Bids Received ({bids.length})</h2>
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">Bids Received ({bids.length})</h2>
                     <div className="space-y-4">
                         {bids.map((bid) => (
-                            <div key={bid._id} className="border border-neutral-300 rounded-lg p-4">
+                            <div key={bid._id} className="border border-slate-200 dark:border-slate-700 rounded-xl p-6 hover:shadow-lg transition-shadow duration-200">
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
-                                        <h3 className="font-bold text-lg">{bid.freelancerId?.name}</h3>
-                                        <p className="text-neutral-600 text-sm">{bid.freelancerId?.email}</p>
+                                        <h3 className="font-semibold text-lg text-slate-900 dark:text-slate-100">{bid.freelancerId?.name}</h3>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">{bid.freelancerId?.email}</p>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-2xl font-bold text-secondary-600">${bid.amount}</p>
-                                        <p className={`text-sm ${bid.status === 'pending' ? 'text-yellow-600' : bid.status === 'hired' ? 'text-green-600' : 'text-red-600'}`}>
-                                            {bid.status}
-                                        </p>
+                                        <p className="text-2xl font-bold text-emerald-600">${bid.amount}</p>
+                                        <span className={`inline-block mt-1 px-3 py-1 rounded-full text-xs font-medium ${bid.status === 'pending'
+                                                ? 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200'
+                                                : bid.status === 'hired'
+                                                    ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200'
+                                                    : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200'
+                                            }`}>
+                                            {bid.status.charAt(0).toUpperCase() + bid.status.slice(1)}
+                                        </span>
                                     </div>
                                 </div>
-                                <p className="text-neutral-700 mb-3">{bid.proposal}</p>
+                                <p className="text-slate-700 dark:text-slate-300 mb-4">{bid.proposal}</p>
                                 {bid.status === 'pending' && gig.status === 'open' && (
                                     <button
                                         onClick={() => handleHire(bid._id)}
