@@ -16,7 +16,7 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
-                        <Link to="/" className="text-2xl font-bold text-primary-600">
+                        <Link to="/" className="text-2xl font-bold text-emerald-600">
                             GigFlow
                         </Link>
                     </div>
@@ -24,7 +24,7 @@ const Navbar = () => {
                     <div className="flex items-center space-x-4">
                         {user ? (
                             <>
-                                <span className="text-neutral-700">Hi, {user.name}</span>
+                                <span className="text-slate-700">Hi, {user.name}</span>
                                 {user.role === 'client' && (
                                     <Link to="/create-gig" className="btn-primary">
                                         Post Gig
@@ -36,7 +36,7 @@ const Navbar = () => {
                             </>
                         ) : (
                             <>
-                                <Link to="/login" className="text-neutral-700 hover:text-primary-600">
+                                <Link to="/login" className="text-slate-700 hover:text-emerald-600">
                                     Login
                                 </Link>
                                 <Link to="/register" className="btn-primary">
