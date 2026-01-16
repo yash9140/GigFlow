@@ -24,19 +24,12 @@ const register = async (req, res) => {
         // Generate token
         const token = generateToken(user._id);
 
-        // Set HTTP-only cookie
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        });
-
         res.status(201).json({
             _id: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
+            token
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -69,19 +62,12 @@ const login = async (req, res) => {
         // Generate token
         const token = generateToken(user._id);
 
-        // Set HTTP-only cookie
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        });
-
         res.status(200).json({
             _id: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
+            token
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
